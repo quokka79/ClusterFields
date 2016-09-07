@@ -1,0 +1,84 @@
+# This procsettings file is valid for ClusterFields v17g
+
+SkipToRegionNumber  :	1           # Jump to this line in your coords file.
+
+SamplingRadius      :	30          # Radius within which to count neighbouring events
+
+SaveImages          :   True        # Save any kind of images? Setting this to false will speed things up dramatically as only the G&F values are calculated and saved to text/Excel files; no images are saved at all.
+
+DoInterpMaps        :	False       # Interpolate a cluster map for a region's events. Setting this to false will not produce interpolated colour maps and will save a lot of time.
+ColMapMax           :	200			# Maximum value for the colour scale of interpolated cluster maps. Set this to a fixed value to maintain consistent-looking maps. Other values are: max (for each map's maximum L(r) value), or maxNN )for the NNth percent of max).
+UseGriddata         :	True        # Use Matlab's griddata_v4 function to interpolate colour maps. Set to false to use the faster (but sometimes less smooth-looking) triscatteredinterp function instead.
+GDInterpSpacing		:	5           # Spacing of the interpolation grid, in table units (i.e. nm).
+
+SavePointPlots		:	True		# Save a plot which only contains the points within a region; events are blue on a white background.
+SaveGFPlots			:	True		# Save a plot of the points coloured by their G&F L(r) value.
+Save3DContours		:	False		# Experimental. Set to false to save time and data. Set this to true to generate contour plots for future use with topographic prominence processing.
+
+DoClustersByBlobs   :   True        # Points above your clustering threshold (BinaryChangeHIGH, below), i.e. 'in cluster' points are rendered as a disk to form the cluster outlines. Points below the threshold are removed.
+RenderBlobsDiskSize :   25          # Disk size with which to draw each in-cluster point. This is roughly equivalent to pixel size, i.e. equiv. to nm in most cases. So for a 40-50 nm diameter 'blob' use 20-25 for disk size.
+
+BinaryChangeHIGH    :	80          # L(r) value at which an event is considered to be 'in a cluster'.
+BinaryChangeLOW     :	60          # L(r) value at which an event is considered to be 'in a hole'. This is essentially the same as the above line, but the colours are inverted for the threshold plots.
+
+DoGridMaps          :   False       # Grid Maps is essentially the bivariate L(r) values measured for a regular xy lattice of points, using your data points as a 'second channel'. Good for sparse data points when interpolated cluster maps show flaring.
+GridMapSpacing      :	0.5         # How to space the grid points. Values <1 are interpreted as multiples of sampling radius. Values >1 are interpreted as a grid point spacing in xy, in nm.
+GridColMapMax       :	200         # Maximum value for the colour scale of Grid-cluster maps. Set this to an integer or to max or to maxNN (see ColMapMax for explanation).
+GridBinChangeHIGH   :   80          # In-cluster threshold. Same as explained above but these are for the Grid-cluster maps.
+GridBinChangeLOW    :   60          # In-hole threshold. Same as explained above but these are for the Grid-cluster maps.
+
+DoBiVariate         :	False       # Perform bivariate G&F between two or three channels. In addition to the standard univariate (within channel) clustering, each channel is also compared against the other(s).
+ChannelIDColumn     :	None        # This must be set to the column containing the channel ID for each line of data. If your channels are in separate files, check the wiki for the channel concatenating tool.
+BiVarSamplingRadius :	50          # Radius in which to search for neighbouring events from the other channel. Generally you might set this larger than your within-channel search radius.
+BiVarChangeHIGH     :	100         # In-cluster threshold. Same as other thresholds but these are for the bivariate maps.
+BiVarChangeLOW      :	120         # In-hole threshold. Same as other thresholds but these are for the bivariate maps.
+
+PrecisionColumn		:	None        # If your data contains a localisation precision (uncertainty) column you can set it here. Otherwise type None.
+PrecisionCrop		:	50          # If you have given a column ID above you can delete events with localisation precision larger than this value (i.e. poorly localised events will be deleted from the output)
+
+PhotonColumn		:	None        # If your data contains a photon count (intensity) column you can set it here. Otherwise type None.
+PhotonCrop			:	500         # If you have given a column ID above you can delete events with photon count smaller than this value (i.e. dim events will be deleted)
+
+MaxEventsToProcess	:	0		    # The maximum number of points in the *cropped region* (including the edge-padding) to consider.
+									# This does not relate to the number of points in your entire image area, only the events after cropping to your region size.
+									# Set this value to zero to disable this feature.
+									# Set the value to a very high (e.g. 10000000) to effectively disable the feature, i.e. if you are certain you'll never have that many events per region.
+									# Set this lower (e.g. around 25000) if you receive out of memory errors, especially if you are enabling the generation of interpolated cluster maps (DoColourMaps = true above).
+									# Set this to your lowest event count/region if you want to equalise your region-event-count between conditions.
+									
+DelDuplicatePts		:	False       # Delete events which localise to identical xy coordinates. Set this to true if you have unmerged data or get singularity warnings when doing map interpolation.
+
+UseFolders			:	True        # Store output in separate folders. Set to false to save everything within a single folder (this can quickly get messy).
+SaveXLS				:	False		# Saves data to an Excel file.
+									# Important! Set 'SaveXLS' to false if you have a lot of regions. As the Excel file grows, Matlab has to wait for Excel to load and save the entire file for each new region. This bogs down the entire computer.
+SaveTextFiles		:	True        # Saves data to text files in the Numbers folder. You can import these into Excel afterwards to reconstitute the Excel file that you disabled in the line above.
+SaveCroppedRegions	:	False		# Save xy cropped regions including edge-padding (a border around each side equal to SamplingRadius to obviate edge effects). Probably not useful in most circumstances.
+
+ImageSize			:	18000       # How wide is your entire image (nm)? This is the whole image size ... not just the maximum x or y value of an event.
+xRegionLength		:	3000        # Size of your regions along the x axis
+yRegionLength		:	3000        # Size of your regions along the y axis
+
+DataTableFileExt	:	txt         # File extension of your data table.
+DataDelimiter		:	tab       # Delimiter used to separate your data columns. Acceptable values: tab comma space semicolon
+CoordsTableScale	:	1           # The scale (multiple) that your region coordinates are given in your coords file.
+DataTableScale		:	1           # The scale that your data table xy coordinates are given.
+FooterLength		:	0           # The number of lines at the end of your data table to ignore, e.g. if there's an inconvenient footer included.
+BlankFirstCol		:	False       # Is your data table's first column empty?  (e.g. from some early versions of Zeiss Elyra software)
+InvertyAxis			:	False       # Are your y-axis coordinates inverted? (e.g. from some early versions of Zeiss Elyra software)
+xCoordsColumn 		:	1           # The column containing your x coordinates
+yCoordsColumn		:	2           # The column containing your y coordinates
+CustomColorMap		:	jet			# Which colormap to use when rendering images. Default is jet.
+
+GetHeadersFromTable :   True        # If enabled then ClusterFields will attempt to read the headers from the first line of each data table.
+                                    # If disabled (i.e. set to false) then you MUST specify a value for ExcelHeaders in the next line by uncommenting one of the options and/or editing it to match your data tables' actual headers.
+# ExcelHeaders		:	id,frame,x(nm),y(nm],sigma(nm),intensity(photon),offset(photon),bkgstd(photon),uncertainty(nm),detections			# Example headers for Thunderstorm with merging
+# ExcelHeaders		:	id,frame,x(nm),y(nm],sigma(nm),intensity(photon),offset(photon),bkgstd(photon),uncertainty(nm),chi2,detections		# Example headers for Thunderstorm with merging and least-squares PSF fitting
+# ExcelHeaders		:	id,frame,x(nm),y(nm],sigma(nm),intensity(photon),offset(photon),bkgstd(photon),uncertainty(nm)						# Example headers for Thunderstorm without merging and without least-squares fitting
+
+DoTimeSeries		:	False       # For live-data. Probably not working so leave this as false or come to see Dave if you want it working.
+TSWindow			:	1000        # The size of the window (in acquisition frames) from which to consider events for a cluster map.
+TSWinStep			:	500         # The size of the jump (in acquisition frames) to slide the window when making the next 'map frame'.
+TSNumFrames			:	3           # How many times to jump the window, i.e. how many 'map frames' to create.
+
+VerboseUpdates		:	false
+IAmBoring			:	False		# Set this to true to disable sound effects and kill the kittens. You monster.
