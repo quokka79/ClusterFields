@@ -1,16 +1,15 @@
 function ProcessingDone(UserEmail,Subject,Body)
 
-% Replace the phrase below with your own phrase.
-% Make sure the quotes are kept!;
-C = '4e65726127674c62684e507972697265507576707872613f';
+% Replace the username below with your own username
+U = 'youremailusername';
 
-% Replace the username below with your own UoM username
-U = 'mdehsdwk';
+% Replace the phrase below with your own phrase.
+P = 'Password123';
 
 setpref('Internet','E_mail',UserEmail);
-setpref('Internet','SMTP_Server','outgoing.manchester.ac.uk');
+setpref('Internet','SMTP_Server','outgoing.server.com');
 setpref('Internet','SMTP_Username',U);
-setpref('Internet','SMTP_Password',d(char(sscanf(C,'%2X').')));
+setpref('Internet','SMTP_Password',P);
 
 props = java.lang.System.getProperties;
 props.setProperty('mail.smtp.auth','true');
