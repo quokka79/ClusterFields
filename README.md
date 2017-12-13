@@ -142,7 +142,7 @@ Note: This *does not* relate to the number of points in your *entire* image area
 |-------------|:-------------:|:-------------:|-------------|
 | DoInterpMaps        |  False       | True/False	|  Interpolate a cluster map for a region's events. Setting this to false will not produce interpolated colour maps and will save a lot of time.  |
 | ColMapMax           |  200	*or* max99 *or* max		| Various 	|  Maximum value for the colour scale of interpolated cluster maps. Set this to a fixed integer to maintain consistent-looking maps. Other values are: max (for each map's maximum L(r) value), or maxN )for the Nth percent of the maximum value in that region). If N ≤ 100, use Nth percentile as the colour map maximum – this can prevent odd looking maps if you have one very very dense cluster. If N > 100 use for NN percent-multiples of the L(r) max value.  |
-| CustomColorMap		|  jet			|  Which colormap to use when rendering images. Default is jet or parula, depending your MATLAB version.  |
+| CustomColorMap		|  jet			|  Any valid cmap name  | Which colormap to use when rendering images. Default is jet or parula, depending your MATLAB version.  |
 | UseGriddata         |  True        | True/False	|  Use Matlab's griddata_v4 function to interpolate colour maps. Set to false to use the faster (but sometimes less smooth-looking) triscatteredinterp function instead.  |
 | GDInterpSpacing		|  5           | Number	|  Spacing of the interpolation grid, in table units (i.e. nm).  |
 
