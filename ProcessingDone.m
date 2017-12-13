@@ -1,5 +1,8 @@
 function ProcessingDone(UserEmail,Subject,Body)
 
+% Obviously do not use this if it contravenes your institution's security policy.
+% Also obviously don't share this file around without removing your details from it first.
+
 % Replace the username below with your own username
 U = 'youremailusername';
 
