@@ -65,11 +65,15 @@ DataTableScale        :    100       # You can also have comment lines like this
 ```
 ... and so on and so forth ...
 
-Example files are given in the Templates folder. Copy and modify these files as required. The file must always be named 'ProcSettings.txt' in order work with the script, i.e. if you copy from the templates file you will need to rename it yourself. The order of these values is not important – they can be on any line. You may want to rearrange the lines to put unimportant options at the bottom and more frequently changed lines towards the top.
+Example files are given in the Templates folder. Copy and modify these files as required. The file must always be named 'ProcSettings.txt' in order work with the script, i.e. if you copy from the templates file you will need to rename it yourself. 
 
-The lines are explained here:
+You really only need those lines which are directly relevant to your processing workflow. However, it's a good idea to include all lines (as in the demo file) so that you can recycle and tweak ProcSettings.txt between analyses with ease.
 
-### General options
+The order of these variables is not important – they can be on any line that you like. You may want to rearrange the lines to put unimportant or rarely altered options at the bottom and more frequently changed lines towards the top.
+
+The lines are explained below:
+
+### ProcSettings.txt - General options
 
 | VariableName	| Example Value	 | Permitted Values	 | Explanation  |
 |-------------|:-------------:|:-------------:|-------------|
@@ -78,7 +82,7 @@ The lines are explained here:
 | VerboseUpdates		|  false  |  True/False  | Relates more information about the state of processing than usual.  |
 | IAmBoring			|  False		|  True/False  |  Set this to true to disable sound effects upon completion. This will also prevent the display of the ASCII art kittens. You monster.  |
 
-### Input options
+### ProcSettings.txt - Input options
 
 | VariableName	| Example Value	 | Permitted Values	 | Explanation  |
 |-------------|:-------------:|:-------------:|-------------|
@@ -97,7 +101,7 @@ The lines are explained here:
 |InvertyAxis	| FALSE	| True/False	| Are your y-axis coordinates inverted? (e.g. from some early versions of Zeiss Elyra software)	|
 
 
-### Output options
+### ProcSettings.txt - Output options
 | VariableName	| Example Value	 | Permitted Values	 | Explanation  |
 |-------------|:-------------:|:-------------:|-------------|
 |UseFolders	| TRUE	| True/False	| Save the data to separate folders. If false, data is saved to the current folder (can get messy).	|
@@ -111,23 +115,22 @@ The lines are explained here:
 | GetHeadersFromTable |  True        | True/False	|  If enabled then ClusterFields will attempt to read the headers from the first line of each data table. If disabled (i.e. set to false) then you **MUST** specify a value for ExcelHeaders to match your data tables' actual headers.  |
 |ExcelHeaders	| X,Y,Z, …	| (various)	| Delimited labels to place at the top of your output tables. Labels for L(r) etc will be added automatically but this lets you rename your data headers if they are confusingly labelled in their current state.	|
 
-### Processing-specific options
+### ProcSettings.txt - Processing options
 
 | VariableName	| Example Value	 | Permitted Values	 | Explanation  |
 |-------------|:-------------:|:-------------:|-------------|
-|xRegionLength	| 3000	| Number	| The full length of your region's x dimension (nm). NB: this is no longer the 'half region size' value from older versions!	|
-|yRegionLength	| 3000	| Number	| The full length of your region's y dimension (nm). NB: this is no longer the 'half region size' value from older versions!	|
+|xRegionLength	| 3000	| Number	| The full length of your ROI x dimension (nm). NB: this is no longer the 'half region size' value from older versions!	|
+|yRegionLength	| 3000	| Number	| The full length of your ROI y dimension (nm). NB: this is no longer the 'half region size' value from older versions!	|
 |SamplingRadius	| 30	| Number	| Radius (nm) within which events are counted to calculate L(r).	|
 |PrecisionCrop	| 50	| Number	| Crop data which is poorly localised, i.e. events with a localisation precision less than this value are kept. You need to set PrecisionColumn to an integer for this to have any effect.	|
 |PhotonCrop	| 400	| Integer	| Crop data which has less photons than this value. You need to set PhotonColumn to an integer for this to have any effect.	|
-|MaxEventsToProcess	| 10000000	| Number	| Limit to the number of molecules to process within a cropped region (not whole image). Set very large to not crop.	|
-|DelDuplicatePts	| False	| True/False	| Delete points with identical x-y coordinates. Set this to true if you have unmerged data or get singularity warnings when doing map interpolation. Enabling this does not delete duplicates from other channels when bivariate is enabled.	|
 
-### Memory management
+### ProcSettings.txt - Memory management options
 Having too many points can bog down processing. For certain cases you can randomly delete some points and still get a useful answer, especially if testing something out.
 
 | VariableName	| Example Value	 | Permitted Values	 | Explanation  |
 |-------------|:-------------:|:-------------:|-------------|
+|DelDuplicatePts	| False	| True/False	| Delete points with identical x-y coordinates. Set this to true if you have unmerged data or get singularity warnings when doing map interpolation. Enabling this does not delete duplicates from other channels when bivariate is enabled.	|
 | MaxEventsToProcess	|  0		    | Integer	|  The maximum number of points in the *cropped region* (including the edge-padding) to consider.  |
 
 Note: This *does not* relate to the number of points in your *entire* image area, only the events after cropping to your region size.
@@ -136,7 +139,7 @@ Note: This *does not* relate to the number of points in your *entire* image area
 * Set this lower (e.g. around 25000) if you receive out of memory errors, especially if you are enabling the generation of interpolated cluster maps (DoInterpMaps = true, below).
 * Set this to your lowest event count/region if you want to equalise your region-event-count between conditions.
 
-### Making coloured cluster maps
+### ProcSettings.txt - Coloured cluster map options
 
 | VariableName	| Example Value	 | Permitted Values	 | Explanation  |
 |-------------|:-------------:|:-------------:|-------------|
@@ -147,7 +150,7 @@ Note: This *does not* relate to the number of points in your *entire* image area
 | GDInterpSpacing		|  5           | Number	|  Spacing of the interpolation grid, in table units (i.e. nm).  |
 
 
-### 'Grid' map options
+### ProcSettings.txt - 'Grid' cluster map options
 Grid Maps is essentially the bivariate L(r) values measured for a regular xy lattice of points, using your data points as a 'second channel'. Good for sparse data points when interpolated cluster maps show flaring.
 
 | VariableName	| Example Value	 | Permitted Values	 | Explanation  |
@@ -158,7 +161,7 @@ Grid Maps is essentially the bivariate L(r) values measured for a regular xy lat
 | GridBinChangeHIGH   |  80          | Number	|  In-cluster threshold. Same as explained above but these are for the Grid-cluster maps.  |
 | GridBinChangeLOW    |  60          | Number	|  In-hole threshold. Same as explained above but these are for the Grid-cluster maps.  |
 
-### Bivariate options
+### ProcSettings.txt - Bivariate analysis options
 
 | VariableName	| Example Value	 | Permitted Values	 | Explanation  |
 |-------------|:-------------:|:-------------:|-------------|
@@ -168,7 +171,7 @@ Grid Maps is essentially the bivariate L(r) values measured for a regular xy lat
 | BiVarChangeHIGH     |  100         | Number	|  In-cluster threshold. Same as other thresholds but these are for the bivariate maps.  |
 | BiVarChangeLOW      |  120         | Number	|  In-hole threshold. Same as other thresholds but these are for the bivariate maps.  |
 
-### Making binary cluster maps
+### ProcSettings.txt - Binary cluster map options
 The coloured maps are binarised at each of the following thresholds. There are two for historical reasons but it's a handy way to try out two different threshold values at the same time.
 
 | VariableName	| Example Value	 | Permitted Values	 | Explanation  |
@@ -176,7 +179,7 @@ The coloured maps are binarised at each of the following thresholds. There are t
 | BinaryChangeHIGH    |  80          | Number	|  L(r) value at which an event is considered to be 'in a cluster'.  |
 | BinaryChangeLOW     |  60          | Number	|  L(r) value at which an event is considered to be 'in a hole'. This is essentially the same as the above line, but the colours are inverted for the threshold plots.  |
 
-### Making 'blob' binary maps
+### ProcSettings.txt - 'Blob' type binary map options
 Points above your clustering threshold (BinaryChangeHIGH, below), i.e. 'in cluster' points are rendered as a solid disk. Disks in clusters overlap to form the cluster outlines. Points below the threshold are removed.
 
 | VariableName	| Example Value	 | Permitted Values	 | Explanation  |
@@ -185,7 +188,7 @@ Points above your clustering threshold (BinaryChangeHIGH, below), i.e. 'in clust
 |RenderBlobsDiskSize	| 23	| Number	| Disk size with which to draw each in-cluster point. This is roughly equivalent to pixel size, i.e. equiv. to nm in most cases. So for a 40-50 nm diameter 'blob' use 20-25 for the disk size.	|
 
 
-### Time-series
+### ProcSettings.txt - Time-series options
 This particular part hasn't been touched in a long time so I can't say that it will still work if you enable it.
 
 | VariableName	| Example Value	 | Permitted Values	 | Explanation  |
